@@ -3,57 +3,33 @@ import java.awt.Image.*;
 
 public class Face{
 
-	private ArrayList<BufferedImage> hairArray = new ArrayList<>();
-	private ArrayList<BufferedImage> faces = new ArrayList<>();
-
 	public Face(BufferedImage pic){
-
-		faceBox(pic); //run openCV shit to get a bounding box
+		box = faceBox(); //openCV shit
 
 	}
 
-
-		
+	public BufferedImage getPicture(BufferedImage pic){
+		return pic;
+	}
 	public T removeHair();
 
 	public T returnHair();
-
+	
 	public T removeFace();
 
-	public T returnFace();
+	public BufferedImage returnFace(int index){
+	
+	}
+	public void faceScale(BufferedImage face, double scaleFactor){
+		double scaledWidth =  box.getWidth() / scaleFactor;
+		double scaledHeight = box.getHeight / scaleFactor;
+		face = new BufferedImage(scaledWidth, scaledHeight, BufferedImage.TYPE_INT_RGB);
+	}
 
-	public BufferedImage faceScale(BufferedImage face1, BufferedImage face2){
-		double width1, width2, height1, height2;
-
-		width1 = face1.getWidth();
-		width2 = face2.getWidth();
-		height1 = face1.getHeight();
-		height2 = face2.getHeight();
-
-		if(width1 != width2){
-			double scaleFactor = width2/width1;
-			double scaledWidth = width2/scaleFactor;
-			double scaledHeight = height2*scaleFactor;
-			BufferedImage newFace2 = new BufferedImage(scaledWidth, scaledHeight, BufferedImage.TYPE_INT_RGB);	
-		}
-		return newFace2;
-	};
-
-	public T faceBox(BufferedImage facePic){
+	public T faceBox(){
 
 			//openCV gypsy shit
-		
+
 	}
 
-	public void saveHair(BufferedImage hairPic){
-		hairArray.add(hairPic);
-	};
-
-	public BufferedImage loadHair(){
-		int hairIndex;
-		Random r = new Random();
-		hairIndex = r.nextInt(hairArray.size());
-
-		return hairArray.get(hairIndex);
-	}
 }
