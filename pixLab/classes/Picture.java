@@ -4,6 +4,10 @@ import java.awt.*;
 import java.awt.font.*;
 import java.awt.geom.*;
 import java.awt.image.BufferedImage;
+import java.awt.image.FilteredImageSource;
+import java.awt.image.ImageFilter;
+import java.awt.image.ImageProducer;
+import java.awt.image.RGBImageFilter;
 import java.text.*;
 import java.util.*;
 import java.util.List; // resolves problem with java.awt.List and java.util.List
@@ -128,13 +132,114 @@ public class Picture extends SimplePicture
     int maxCounter = -1;
     double sum = 0;
     double totalA = 0;
+    double avgR = 0;
+    double avgG = 0;
+    double avgB = 0;
+    double tR = 0;
+    double tG = 0;
+    double tB = 0;
+    double aR = 0;
+    double aG = 0;
+    double aB = 0;
       for (int row = 75; row < 93; row++){
           for (int col = 154; col < 193 ; col++){
-               //if(pixels[row][col].getRed() <= 240 && pixels[row][col].getRed() <= 240 && pixels[row][col].getRed() <= 240){
+                   avg = pixels[row][col].getAverage();
+                   tR = tR + pixels[row][col].getRed();
+                   tG = tG + pixels[row][col].getGreen();
+                   tB = tB + pixels[row][col].getBlue();
+                   
+                   sum = sum + avg;
+                   counter++;              
+      
+    } 
+  }
+    aR = tR/(counter);
+    aG = tG/(counter);
+    aB = tB/(counter); 
+    totalA = sum /(counter);
+    
+    System.out.println("avg is: " + totalA);
+     for (int row = pixels.length - 1; row > (pixels.length/2); row--){
+          for (int col = 0; col < width; col++){
+              pixels[row][col].setColor(Color.WHITE);
+            }
+        }
+     for (int row = pixels.length/2; row >= 0; row--){
+          for (int col = 0; col < width; col++){
+             
+                  if((pixels[row][col].getRed() - tR <= 50) && (pixels[row][col].getGreen() - tG <= 50) 
+                  && (pixels[row][col].getBlue() - tB <= 50)){
+                       // pixels[row][col].setColor(Color.BLACK);
+                    }else{
+                       pixels[row][col].setColor(Color.WHITE);
+                    }
+                }
+            }
+           // int color = this.getRGB(0,0);
+           //Color c = new Color(140,40,75);
+          
+}
+    public void transparent(){
+          //Image im = makeColorTransparent(this, c);
+          int avg = 4;
+          int x = 5;
+            Pixel[][] pixels = this.getPixels2D();
+            for(Pixel[] rowArray : pixels){
+                for(Pixel pixelObj : rowArray){
+                    avg =(pixelObj.getRed() + pixelObj.getGreen() + pixelObj.getBlue())/ 3;
+                    pixelObj.setRed(avg);
+                    pixelObj.setGreen(avg);
+                    pixelObj.setBlue(avg);
+                }
+            }
+    }
+    public void mask(){
+         Pixel [][] pixels = this.getPixels2D();
+      int height = pixels.length;
+      int width = pixels[0].length;
+    
+      //Skin: R:  226   G: 174   B: 152  (225,590)
+      //Hair  R:  108   G: 88    B: 79   (212,585)
+      
+      //backgroung (green) rgb (94,104,69)
+      //lips (red) rgb (210 94 97)
+      for (int row = pixels.length - 1; row > 1; row--)
+    {
+      for (int col = 0; col < width; col++)
+      {
+          if(pixels[row][col].getRed() + 10 >= 114 && pixels[row][col].getGreen() + 10 >= 87  && pixels[row][col].getRed() + 10 >= 76){
+            pixels[row][col].setColor(Color.WHITE);
+            }
+          if(pixels[row][col].getRed() + 5 >= 94 && pixels[row][col].getGreen() + 5 >= 104  && pixels[row][col].getRed() + 5 >= 69){
+            pixels[row][col].setColor(Color.WHITE);
+            }
+          if(pixels[row][col].getRed() + 15 >= 210 && pixels[row][col].getGreen() + 15 >= 94  && pixels[row][col].getRed() + 15 >= 97){
+            pixels[row][col].setColor(Color.WHITE);
+            }
+          if(pixels[row][col].getRed() <= 240 && pixels[row][col].getRed() <= 240 && pixels[row][col].getRed() <= 240){
+              if((row - 1 > 0) && (pixels[row][col].getRed() + 10 <= pixels[row - 1][col].getRed() || 
+                  pixels[row][col].getGreen() + 10 <= pixels[row - 1][col].getGreen()
+                  || pixels[row][col].getBlue() + 10 <= pixels[row - 1][col].getBlue())){
+                 
+                
+            }
+              
+            }
+      }
+    } 
+    
+    double avg = pixels[0][0].getAverage();
+    double tempA = pixels[0][0].getAverage();
+    int counter = 0;
+    int maxCounter = -1;
+    double sum = 0;
+    double totalA = 0;
+      for (int row = 75; row < 93; row++){
+          for (int col = 154; col < 193 ; col++){
                    avg = pixels[row][col].getAverage();
                    sum = sum + avg;
-                    counter++;              
-      //}
+                   counter++;              
+      
     } 
   }
   
@@ -146,77 +251,22 @@ public class Picture extends SimplePicture
               pixels[row][col].setColor(Color.WHITE);
             }
         }
-   for (int row = pixels.length/2; row >= 0; row--){
+     for (int row = pixels.length/2; row >= 0; row--){
           for (int col = 0; col < width; col++){
-               //if(pixels[row][col].getRed() <= 240 && pixels[row][col].getRed() <= 240 && pixels[row][col].getRed() <= 240){
-                   if((pixels[row][col].getAverage() - totalA <= 40)){
-                   }else{
+             
+                  if((pixels[row][col].getAverage() - totalA <= 100)){
+                       pixels[row][col].setColor(Color.BLACK);
+                    }else{
                        pixels[row][col].setColor(Color.WHITE);
                     }
-                   
-                       
-      //}
-    } 
-  }
- 
+                }
+            }
+           // int color = this.getRGB(0,0);
+           //Color c = new Color(140,40,75);
+          
 }
-  /** Method to set the blue to 0 */
-  public void zeroBlue()
-  {
-    Pixel[][] pixels = this.getPixels2D();
-    for (Pixel[] rowArray : pixels)
-    {
-      for (Pixel pixelObj : rowArray)
-      {
-        pixelObj.setBlue(0);
-      }
-    }
-  }
-  
-  /** Method that mirrors the picture around a 
-    * vertical mirror in the center of the picture
-    * from left to right */
-  public void mirrorVertical()
-  {
-    Pixel[][] pixels = this.getPixels2D();
-    Pixel leftPixel = null;
-    Pixel rightPixel = null;
-    int width = pixels[0].length;
-    for (int row = 0; row < pixels.length; row++)
-    {
-      for (int col = 0; col < width / 2; col++)
-      {
-        leftPixel = pixels[row][col];
-        rightPixel = pixels[row][width - 1 - col];
-        rightPixel.setColor(leftPixel.getColor());
-      }
-    } 
-  }
-  
-  /** Mirror just part of a picture of a temple */
-  public void mirrorTemple()
-  {
-    int mirrorPoint = 276;
-    Pixel leftPixel = null;
-    Pixel rightPixel = null;
-    int count = 0;
-    Pixel[][] pixels = this.getPixels2D();
-    
-    // loop through the rows
-    for (int row = 27; row < 97; row++)
-    {
-      // loop from 13 to just before the mirror point
-      for (int col = 13; col < mirrorPoint; col++)
-      {
-        
-        leftPixel = pixels[row][col];      
-        rightPixel = pixels[row]                       
-                         [mirrorPoint - col + mirrorPoint];
-        rightPixel.setColor(leftPixel.getColor());
-      }
-    }
-  }
-  
+   
+
   /** copy from the passed fromPic to the
     * specified startRow and startCol in the
     * current picture
@@ -257,11 +307,11 @@ public class Picture extends SimplePicture
     this.copy(flower2,100,0);
     this.copy(flower1,200,0);
     Picture flowerNoBlue = new Picture(flower2);
-    flowerNoBlue.zeroBlue();
+    
     this.copy(flowerNoBlue,300,0);
     this.copy(flower1,400,0);
     this.copy(flower2,500,0);
-    this.mirrorVertical();
+   
     this.write("collage.jpg");
   }
   
@@ -335,7 +385,7 @@ public class Picture extends SimplePicture
   {
     Picture beach = new Picture("beach.jpg");
     beach.explore();
-    beach.zeroBlue();
+   
     beach.explore();
   }
   

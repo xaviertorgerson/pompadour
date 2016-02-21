@@ -15,7 +15,14 @@ public class PictureTester
   {
     Picture beach = new Picture("beach.jpg");
     beach.explore();
-    beach.zeroBlue();
+  
+    beach.explore();
+  }
+    public static void testTr()
+  {
+    Picture beach = new Picture("face2.jpg");
+    beach.explore();
+    beach.transparent();
     beach.explore();
   }
   public static void testCropHair(){
@@ -39,7 +46,7 @@ public class PictureTester
   {
     Picture caterpillar = new Picture("caterpillar.jpg");
     caterpillar.explore();
-    caterpillar.mirrorVertical();
+  
     caterpillar.explore();
   }
   
@@ -48,7 +55,7 @@ public class PictureTester
   {
     Picture temple = new Picture("temple.jpg");
     temple.explore();
-    temple.mirrorTemple();
+   
     temple.explore();
   }
   
@@ -59,6 +66,21 @@ public class PictureTester
     canvas.createCollage();
     canvas.explore();
   }
+  public static void testMask(){
+       Picture face = new Picture("manFace.jpg");
+      Picture face2 = new Picture("face2.jpg");
+      Picture face3 = new Picture("face3.jpg");
+     // face.explore();
+      face2.explore();
+      //face.cropHair();
+      face2.cropHair();
+      //face3.cropHair();
+     
+      //face.explore();
+      face2.explore();
+      //face3.explore();
+      
+    }
   
   /** Method to test edgeDetection */
   public static void testEdgeDetection()
@@ -96,6 +118,8 @@ public class PictureTester
     //testMirrorDiagonal();
     //testCollage();
     //testCopy();
+    testMask();
+    testTr();
     testEdgeDetection();
     testEdgeDetection2();
     //testChromakey();
