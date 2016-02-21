@@ -142,7 +142,7 @@ public class Picture extends SimplePicture
     double aG = 0;
     double aB = 0;
       for (int row = 75; row < 93; row++){
-          for (int col = 154; col < 193 ; col++){
+         for (int col = 154; col < 193 ; col++){
                    avg = pixels[row][col].getAverage();
                    tR = tR + pixels[row][col].getRed();
                    tG = tG + pixels[row][col].getGreen();
@@ -220,11 +220,11 @@ public class Picture extends SimplePicture
               if((row - 1 > 0) && (pixels[row][col].getRed() + 10 <= pixels[row - 1][col].getRed() || 
                   pixels[row][col].getGreen() + 10 <= pixels[row - 1][col].getGreen()
                   || pixels[row][col].getBlue() + 10 <= pixels[row - 1][col].getBlue())){
-                 
+                 pixels[row][col].setColor(Color.BLACK);
                 
             }
-              
-            }
+            
+          }
       }
     } 
     
@@ -254,16 +254,24 @@ public class Picture extends SimplePicture
      for (int row = pixels.length/2; row >= 0; row--){
           for (int col = 0; col < width; col++){
              
-                  if((pixels[row][col].getAverage() - totalA <= 100)){
+                  if((pixels[row][col].getAverage() - totalA <= 60)){
                        pixels[row][col].setColor(Color.BLACK);
                     }else{
                        pixels[row][col].setColor(Color.WHITE);
                     }
                 }
-            }
-           // int color = this.getRGB(0,0);
-           //Color c = new Color(140,40,75);
+           }
           
+          for (int col = width - 1; col > 1; col--)
+           {
+              for (int row = 0; row < height; row++)
+                  {
+                     if(col <= 0.18 * width || (col >= width - (0.18 * width))){
+                                pixels[row][col].setColor(Color.WHITE);
+                            }
+                        }
+                    }
+                    
 }
    
 

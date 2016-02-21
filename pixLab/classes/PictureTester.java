@@ -72,11 +72,11 @@ public class PictureTester
       Picture face3 = new Picture("face3.jpg");
      // face.explore();
       face2.explore();
-      //face.cropHair();
-      face2.cropHair();
+      face.mask();
+      face2.mask();
       //face3.cropHair();
      
-      //face.explore();
+      face.explore();
       face2.explore();
       //face3.explore();
       
